@@ -1,3 +1,5 @@
+from collections import deque
+
 """
 Problem 1: Duplicate Tracker
 
@@ -13,8 +15,18 @@ Output: False
 """
 
 def has_duplicates(product_ids):
-    # Your implementation here
-    pass
+    seen = set()
+
+    for product_id in product_ids:
+        if product_id in seen:
+            return True
+        seen.add(product_id)
+
+    return False
+
+# I chose a set because it makes it easy to check if a product ID has already been seen.
+# Checking and adding values to a set are O(1) on average, so checking all product IDs takes O(n) time.
+
 
 
 """
@@ -32,14 +44,18 @@ task_queue.remove_oldest_task() → "Email follow-up"
 
 class TaskQueue:
     def __init__(self):
-        # Your initialization here
-        pass
+        self.tasks = deque()
 
     def add_task(self, task):
-        pass
+        self.tasks.append(task)
 
     def remove_oldest_task(self):
-        pass
+        if len(self.tasks) == 0:
+            return None
+        return self.tasks.popleft()
+
+# I chose a queue because tasks need to be removed in the same order they were added.
+# Adding to the end and removing from the front with a deque are both O(1), making it efficient for FIFO processing.
 
 
 """
@@ -57,10 +73,13 @@ tracker.get_unique_count() → 2
 
 class UniqueTracker:
     def __init__(self):
-        pass
+        self.values = set()
 
     def add(self, value):
-        pass
+        self.values.add(value)
 
     def get_unique_count(self):
-        pass
+        return len(self.values)
+
+# I chose a set because it automatically stores each value only once, even if the same value is added multiple times.
+# Adding a value is O(1) on average, and getting the number of unique values with len() is O(1).
